@@ -1,0 +1,179 @@
+#header ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+#header li {
+    float: left;
+}
+
+li a, .dropbtn {
+    display: inline-block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover, .dropdown:hover .dropbtn {
+    background-color: red;
+}
+
+li.dropdown {
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+.dropdown-content a:hover {background-color: #f1f1f1}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+#title{
+	font-family: Times New Roman;
+	color: red;
+	display: inline-block;
+	text-align: center;
+	padding: 14px 16px;
+	text-decoration: none;
+}
+
+#book{
+	padding-left:10px;
+	
+}
+
+.tbl{
+	clear: both;
+	display: block;
+}
+
+#reg{
+	display: block;
+	margin-left: auto;
+    margin-right: auto;
+    
+}
+
+#b3{
+	display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%;
+}
+
+#t3{
+	display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+	float: left;
+    width: 40%;
+}
+
+#c{
+	display: inline-block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40%;
+	float: left;
+	font-size: 30px;
+}
+
+#t{
+	width: 40%;
+}
+
+h1{
+	display: block;
+	margin-left: auto;
+    margin-right: auto;
+	width: 30%;
+}
+
+input[type=text], select {
+    width: 100%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    display: inline-block;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+input[type=submit] {
+    width: 20%;
+    background-color: red;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+input[type=reset] {
+    width: 20%;
+    background-color: red;
+    color: white;
+    padding: 14px 20px;
+    margin: 8px 0;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+input[type=submit]:hover {
+    background-color: #FF6347;
+}
+
+input[type=reset]:hover {
+    background-color: #FF6347;
+}
+
+#f {
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 20px;
+}
+
+#accordion-1 {
+	font-size:14px;
+}
+
+#container {
+	min-height:100%;
+	position:relative;
+	height:950px;
+}
+
+.footer {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+	height: 50px;
+	vertical-align: center;
+    background-color: grey;
+    color: white;
+    text-align: center;
+}
