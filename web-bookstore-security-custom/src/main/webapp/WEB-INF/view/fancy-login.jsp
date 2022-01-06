@@ -35,6 +35,8 @@
 				<div style="padding-top: 30px" class="panel-body">
 
 					<!-- Login Form -->
+					<!-- form:form tag is used because it automatically adds the Cross Site Request Forgery (CSRF) security protection tokens built in the Spring framework
+					this is adding security tokens automatically -->
 					<form:form action="${pageContext.request.contextPath}/authenticateTheUser" method="POST" class="form-horizontal">
 
 					    <!-- Place for messages: error, alert etc ... -->
@@ -43,7 +45,7 @@
 					            <div>
 									
 									<!-- Check for login error -->
-	
+									<!-- When login fails, by default Spring Security will send user to login page and append the error parameter: ?error to the URL-->	
 									<c:if test="${param.error != null}">								            
 										<div class="alert alert-danger col-xs-offset-1 col-xs-10">
 											Invalid username and password.
@@ -51,7 +53,8 @@
 									</c:if>
 									
 									
-									<!-- Check for logout -->		 
+									<!-- Check for logout -->	
+									<!-- When logout button is pressed, by default Spring Security will send user to login page and append the error parameter: ?logout to the URL-->		 
 									<c:if test="${param.logout != null}">
 									           
 										<div class="alert alert-success col-xs-offset-1 col-xs-10">
@@ -84,7 +87,7 @@
 							</div>
 						</div>
 						
-
+						<!-- on this way we can add CSRF security tokens manually -->
 						<%-- <input type="hidden"
 							   name="${_csrf.parameterName}"
 							   value="${_csrf.token}" /> --%>

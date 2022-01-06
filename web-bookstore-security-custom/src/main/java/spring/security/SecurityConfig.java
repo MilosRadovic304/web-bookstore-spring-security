@@ -10,12 +10,8 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.User.UserBuilder;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.provisioning.JdbcUserDetailsManager;
-import org.springframework.security.provisioning.UserDetailsManager;
+
 
 import spring.service.CustomerService;
 
@@ -35,27 +31,28 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		
-		auth.authenticationProvider(authenticationProvider());
+		auth.authenticationProvider(authenticationProvider()); //here we are telling spring to authenticate users from the DB 
 		
 	}
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception{
 		
-		http.authorizeRequests()
-		.antMatchers("/").hasRole("EMPLOYEE")
-		.antMatchers("/managers/**").hasRole("MANAGER")
+		http.authorizeRequests()	//restrict access based on the HttpServletRequest
+		.antMatchers("/").hasRole("EMPLOYEE")	//restrict access to specific pages based on given user roles 
+		.antMatchers("/managers/**").hasRole("MANAGER") //   ** - all sub-directories
 		.antMatchers("/admins/**").hasRole("ADMIN")
 		.and()
 		.formLogin()
-			.loginPage("/showMyLoginPage")
-			.loginProcessingUrl("/authenticateTheUser")
+			.loginPage("/showMyLoginPage")	//show custom login form at the request mapping
+			.loginProcessingUrl("/authenticateTheUser")	//login form should POST data to this URL for processing (check username and password) - this is done in the background by Spring 
 			.successHandler(customAuthenticationSuccessHandler)
-			.permitAll()
+			.permitAll() //allow everyone to see the login page 
 		.and()
-		.logout().permitAll()
+		.logout().permitAll() //allow everyone to logout 
 		.and()
-		.exceptionHandling().accessDeniedPage("/accessDenied");
+		.exceptionHandling().accessDeniedPage("/accessDenied"); //if user doesn't have authority to enter 
+		//a certain part of the application this will redirect user to accessDenied.jsp
 		
 	}
 	

@@ -29,13 +29,13 @@ import com.mchange.v2.c3p0.ComboPooledDataSource;
 @EnableWebMvc //provides similar support to <mvc:annotation-driven>
 @EnableTransactionManagement //adds transaction manager support
 @ComponentScan("spring") //which packages to scan to find controllers, services, DAO, entity 
-@PropertySource({"classpath:persistence-oracle.properties", "classpath:persistence-oracle.properties"})
+@PropertySource({"classpath:persistence-oracle.properties", "classpath:persistence-oracle.properties"}) //this is used to read values from properties file
 public class AppConfig  implements WebMvcConfigurer{
 
-	//set up variable to hold the properties
+	
 	
 	@Autowired
-	private Environment env; //this is used to read values from properties file
+	private Environment env; //set up variable to hold the data read from the properties file
 	
 	//set up a logger for diagnostics
 	//private Logger logger = logger.getLogger(getClass().getName());
@@ -62,20 +62,20 @@ public class AppConfig  implements WebMvcConfigurer{
 	
 	
 	@Bean
-	public DataSource myDataSource() {
+	public DataSource myDataSource() { // create bean for DataSource
 		
-		// create connection pool
+		// create connection pool -from c3p0 framework
 		ComboPooledDataSource myDataSource = new ComboPooledDataSource();
 
 		// set the jdbc driver
 		try {
-			myDataSource.setDriverClass("oracle.jdbc.driver.OracleDriver");		
+			myDataSource.setDriverClass(env.getProperty("jdbc.driver"));	//read data from properties file	//"oracle.jdbc.driver.OracleDriver"
 		}
 		catch (PropertyVetoException exc) {
 			throw new RuntimeException(exc);
 		}
 		
-		// for sanity's sake, let's log url and user ... just to make sure we are reading the data
+		// to check if we are reading data from properties file
 		//logger.info("jdbc.url=" + env.getProperty("jdbc.url"));
 		//logger.info("jdbc.user=" + env.getProperty("jdbc.user"));
 		
@@ -84,7 +84,7 @@ public class AppConfig  implements WebMvcConfigurer{
 		myDataSource.setUser(env.getProperty("jdbc.user"));
 		myDataSource.setPassword(env.getProperty("jdbc.password"));
 		
-		// set connection pool props
+		// set connection pool properties
 		myDataSource.setInitialPoolSize(getIntProperty("connection.pool.initialPoolSize"));
 		myDataSource.setMinPoolSize(getIntProperty("connection.pool.minPoolSize"));
 		myDataSource.setMaxPoolSize(getIntProperty("connection.pool.maxPoolSize"));		
@@ -103,47 +103,7 @@ public class AppConfig  implements WebMvcConfigurer{
 		
 		return props;				
 	}
-
-	// define a bean for our security datasource
 	
-	
-	
-	
-	// define a bean for our security datasource
-	@Bean
-	public DataSource securityDataSource() {
-		
-		// create connection pool
-		ComboPooledDataSource securityDataSource = new ComboPooledDataSource();
-		
-		//set the jdbc driver class
-		try {
-			securityDataSource.setDriverClass(env.getProperty("jdbc.driver"));
-		} catch (PropertyVetoException exc) {
-			throw new RuntimeException(exc);
-		}
-		
-		
-		//log the connection properties
-		//for sanity's sake, log this info
-		//just to make sure we are teally reading data from properties file
-	//	logger.info(">>> jdbc.url="+ env.getProperty("jdbc.url"));
-	//	logger.info(">>> jdbc.user="+ env.getProperty("jdbc.user"));
-		
-		// set database connection properties
-		securityDataSource.setJdbcUrl(env.getProperty("jdbc.url"));
-		securityDataSource.setUser(env.getProperty("jdbc.user"));
-		securityDataSource.setPassword(env.getProperty("jdbc.password"));
-		
-		//set connection pool properties
-		
-		securityDataSource.setInitialPoolSize(getIntProperty("connection.pool.initialPoolSize"));
-		securityDataSource.setMinPoolSize(getIntProperty("connection.pool.minPoolSize"));
-		securityDataSource.setMaxPoolSize(getIntProperty("connection.pool.maxPoolSize"));
-		securityDataSource.setMaxIdleTime(getIntProperty("connection.pool.maxIdleTime"));
-		
-		return securityDataSource;
-	}
 	
 	// need a helper method
 	//read environment property and convert to int
@@ -153,12 +113,9 @@ public class AppConfig  implements WebMvcConfigurer{
 		
 		//now convert to int
 		int intPropVal = Integer.parseInt(propVal);
+			
 		
-		
-		
-		return intPropVal;
-		
-		
+		return intPropVal;			
 	}
 	
 	
@@ -166,7 +123,7 @@ public class AppConfig  implements WebMvcConfigurer{
 	@Bean
 	public LocalSessionFactoryBean sessionFactory(){
 		
-		// create session factorys
+		// create session factories 
 		LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
 		
 		// set the properties
